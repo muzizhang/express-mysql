@@ -1,9 +1,9 @@
 var userSqlMap = {
-    add: 'insert into user(username, password) values(?, ?)',
-    deleteById: 'delete from user where id = ?',
-    update: 'update user set username=?, password=? where id=?',
-    list: 'select * from user',
-    getById: 'select * from user where id = ?'
+    add: 'insert into users(username, password) values(?, ?)',
+    deleteById: 'delete from users where id = ?',
+    update: 'update users set username=?, password=? where id=?',
+    list: 'select * from users',
+    getById: 'select * from users where id = ?'
 };
 
 module.exports = userSqlMap;

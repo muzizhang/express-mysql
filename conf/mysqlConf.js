@@ -1,10 +1,10 @@
 module.exports = {
     mysql: {
-        host: 'localhost',
+        host: '127.0.0.1',
         port: 3306,
         user: 'root',
         password: '123456',
-        database:'electron-shop',
+        database:'electron_shop',
         // 最大连接数，默认为10
         connectionLimit: 10
     }

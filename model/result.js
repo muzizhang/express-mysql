@@ -1,6 +1,7 @@
-exports.createResult = function(success, data) {
-    var result = {};
-    result.success = success;
-    result.data = data;
-    return result;
+exports.createResult = function(success, data, code) {
+    var result = {}
+    result.success = success
+    result.data = data
+    result.code = code
+    return result
 };
