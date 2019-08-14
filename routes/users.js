@@ -29,12 +29,12 @@ router.delete('/:id', function (req, res) {
 	});
 });
 
-/* add users */
+/* 登录 */
 router.post('/', function (req, res) {
 	console.log('post users called');
 	var user = req.body;
 	console.log(user);
-	userDAO.add(user, function (success) {
+	userDAO.login(user, function (success) {
 		var r = result.createResult(success, null, 200);
 		res.json(r);
 	});

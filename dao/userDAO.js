@@ -4,7 +4,7 @@ var userSqlMap = require('./userSqlMap');
 var pool = mysql.createPool(mysqlConf.mysql);
 
 module.exports = {
-	add: function (user, callback) {
+	login: function (user, callback) {
 		pool.query(userSqlMap.add, [user.username, user.password], function (error, result) {
 			if (error) throw error;
 			callback(result.affectedRows > 0);
