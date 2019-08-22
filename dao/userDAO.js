@@ -4,6 +4,13 @@ var userSqlMap = require('./userSqlMap');
 var pool = mysql.createPool(mysqlConf.mysql);
 
 module.exports = {
+	// 注册
+	register: function (params, callback) {
+		pool.query(userSqlMap.register, [params.userName, params.password], function (error, result) {
+			if (error) throw error;
+			callback(result.affectedRows > 0);
+		})
+	},
 	login: function (user, callback) {
 		pool.query(userSqlMap.add, [user.username, user.password], function (error, result) {
 			if (error) throw error;

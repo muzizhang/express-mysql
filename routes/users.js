@@ -3,6 +3,15 @@ var router = express.Router();
 var userDAO = require('../dao/userDAO');
 var result = require('../model/result');
 
+// 注册
+router.post('/register', function (req, res) {
+	const params = req.body;
+	userDAO.register(params, function (success) {
+		const r = result.createResult(success, null, 2000);
+		res.json(r)
+	})
+})
+
 /* list users */
 router.get('/', function (req, res) {
 	console.log('list users called');
@@ -30,15 +39,16 @@ router.delete('/:id', function (req, res) {
 });
 
 /* 登录 */
-router.post('/', function (req, res) {
+router.post('/login', function (req, res) {
 	console.log('post users called');
 	var user = req.body;
 	console.log(user);
 	userDAO.login(user, function (success) {
-		var r = result.createResult(success, null, 200);
+		var r = result.createResult(success, null, 2000);
 		res.json(r);
 	});
 });
+
 
 /* update users */
 router.put('/:id', function (req, res) {
