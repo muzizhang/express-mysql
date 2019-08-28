@@ -1,4 +1,5 @@
 var express = require('express')
+var cors = require('cors')
 var path = require('path')
 var logger = require('morgan')
 var cookieParser = require('cookie-parser')
@@ -7,7 +8,7 @@ var bodyParser = require('body-parser')
 var users = require('./routes/users')
 
 var app = express()
-
+app.use(cors())
 // view 处理  配置ejs 模块文件存放路径
 app.set('views', path.join(__dirname, 'views/'))
 // 为 express 服务器，设置模块引擎类型
