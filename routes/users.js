@@ -2,15 +2,38 @@ var express = require('express');
 var router = express.Router();
 var userDAO = require('../dao/userDAO');
 var result = require('../model/result');
+var jwt =  require('jsonwebtoken');
 
 // 注册
 router.post('/register', function (req, res) {
 	const params = req.body;
+	console.log('router----', params)
 	userDAO.register(params, function (success) {
 		const r = result.createResult(success, null, 2000);
 		res.json(r)
 	})
 })
+/* 登录 */
+router.post('/login', function (req, res) {
+	var user = req.body;
+	userDAO.login(user, function (success, data) {
+		let content = { name: data.userName };
+		let secretOrPrivateKey = '15484631214vhgjfyt';
+		let token = jwt.sign(content, secretOrPrivateKey, {
+			expiresIn: 60*15*1
+		})
+		var r = result.createResult(success, { token: token }, 2000);
+		res.json(r);
+	});
+});
+// userInfo
+router.post('/info', function (req, res) {
+	var userName = req.body;
+	userDAO.login(userName, function (success) {
+		var r = result.createResult(success, null, 2000);
+		res.json(r);
+	});
+});
 
 /* list users */
 router.get('/', function (req, res) {
@@ -35,17 +58,6 @@ router.delete('/:id', function (req, res) {
 	console.log('delete user called, id=' + id);
 	userDAO.deleteById(id, function (success) {
 		res.json(result.createResult(success, null));
-	});
-});
-
-/* 登录 */
-router.post('/login', function (req, res) {
-	console.log('post users called');
-	var user = req.body;
-	console.log(user);
-	userDAO.login(user, function (success) {
-		var r = result.createResult(success, null, 2000);
-		res.json(r);
 	});
 });
 

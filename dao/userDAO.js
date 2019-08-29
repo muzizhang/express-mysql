@@ -6,15 +6,28 @@ var pool = mysql.createPool(mysqlConf.mysql);
 module.exports = {
 	// 注册
 	register: function (params, callback) {
-		pool.query(userSqlMap.register, [params.userName, params.password], function (error, result) {
+		console.log('注册param====', params)
+		pool.query(userSqlMap.register, [params.username, params.pwd], function (error, result) {
 			if (error) throw error;
 			callback(result.affectedRows > 0);
 		})
 	},
+	// 登录
 	login: function (user, callback) {
-		pool.query(userSqlMap.add, [user.username, user.password], function (error, result) {
+		pool.query(userSqlMap.add, [user.username, user.pwd], function (error, result) {
 			if (error) throw error;
-			callback(result.affectedRows > 0);
+			if (result.length > 0 ) {
+				callback(true, result)
+			} else {
+				callback(false, null);
+			}
+		});
+	},
+	// 获取用户信息
+	userInfo: function (username, callback) {
+		pool.query(userSqlMap.userInfo, [username], function (error, result) {
+			if (error) throw error;
+			callback(result);
 		});
 	},
 	list: function (callback) {
