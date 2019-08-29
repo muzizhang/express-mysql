@@ -7,7 +7,6 @@ var jwt =  require('jsonwebtoken');
 // 注册
 router.post('/register', function (req, res) {
 	const params = req.body;
-	console.log('router----', params)
 	userDAO.register(params, function (success) {
 		const r = result.createResult(success, null, 2000);
 		res.json(r)
@@ -27,13 +26,19 @@ router.post('/login', function (req, res) {
 	});
 });
 // userInfo
-router.post('/info', function (req, res) {
-	var userName = req.body;
-	userDAO.login(userName, function (success) {
-		var r = result.createResult(success, null, 2000);
+router.get('/info', function (req, res) {
+	var userName = req.query.username;
+	console.log('users===', req.query.username)
+	userDAO.userInfo(userName, function (success, data) {
+		var r = result.createResult(success, data, 2000);
 		res.json(r);
 	});
 });
+// 退出
+router.post('/logout', function (req,res) {
+	var r = result.createResult(true, null, 2000)
+	res.json(r)
+})
 
 /* list users */
 router.get('/', function (req, res) {

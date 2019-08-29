@@ -27,7 +27,7 @@ module.exports = {
 	userInfo: function (username, callback) {
 		pool.query(userSqlMap.userInfo, [username], function (error, result) {
 			if (error) throw error;
-			callback(result);
+			callback(result, result[0]);
 		});
 	},
 	list: function (callback) {
