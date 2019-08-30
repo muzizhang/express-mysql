@@ -12,6 +12,14 @@ router.post('/register', function (req, res) {
 		res.json(r)
 	})
 })
+// 校验用户名是否重复
+router.get('/validateUsername', function (req, res) {
+	console.log(req.query)
+	userDAO.validateUsername(req.query.username, function (success) {
+		const r = result.createResult(success, null, 2000);
+		res.json(r)
+	})
+})
 /* 登录 */
 router.post('/login', function (req, res) {
 	var user = req.body;
@@ -73,6 +81,8 @@ router.post('/good/racking', function(req, res) {
 // 删除商品
 router.delete('/good/:id', function (req, res) {
 	var id = req.params.id;
+	console.log('id===delete', id)
+	console.log('delete', req.query)
 	userDAO.deleteGood(id, function (success) {
 		res.json(result.createResult(success, null, 2000));
 	});

@@ -1,5 +1,6 @@
 var userSqlMap = {
   register: 'insert into user(userName, pwd, status) values(?, ?, 1)',
+  validateUsername: 'select * from user where userName = ?',
   add: 'select * from user where userName = ? and pwd = ?',
   userInfo: 'select * from user where userName = ?',
   category: 'SELECT category FROM good',

@@ -6,10 +6,21 @@ var pool = mysql.createPool(mysqlConf.mysql);
 module.exports = {
 	// 注册
 	register: function (params, callback) {
-		console.log('注册param====', params)
 		pool.query(userSqlMap.register, [params.username, params.pwd], function (error, result) {
 			if (error) throw error;
 			callback(result.affectedRows > 0);
+		})
+	},
+	// 校验用户名是否重复
+	validateUsername: function (username, callback) {
+		pool.query(userSqlMap.validateUsername, username, function (error, result) {
+			if (error) throw error;
+			console.log('validateUsername===', result)
+			if (JSON.parse(JSON.stringify(result)).length > 0) {
+				callback(true);
+			} else {
+				callback(false)
+			}
 		})
 	},
 	// 登录
@@ -65,10 +76,10 @@ module.exports = {
 	},
 	// 删除商品
 	deleteGood: function (id, callback) {
-		pool.query(userSqlMap.deleteGood, id, function(error, result) {
+		pool.query(userSqlMap.deleteGood, [id], function(error, result) {
 			if (error) throw error;
 			console.log('result======deleteGood', result)
-			callback(result.affectedRows > 0);
+			callback(result);
 		})
 	},
 	// 获取用户
@@ -81,7 +92,7 @@ module.exports = {
 	},
 	// 是否禁用用户
 	userIsDisable: function (params, callback) {
-		pool.query(userSqlMap.userIsDisable, [params.status, params.username], function (error, result) {
+		pool.query(userSqlMap.userIsDisable, [params.status, params.userName], function (error, result) {
 			if (error) throw error;
 			console.log('result======userIsDisable', result)
 			callback(true, result);
